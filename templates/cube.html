@@ -1,5 +1,27 @@
 {% extends "base.html" %}
 
+{% block script %}
+    <script src={{ url_for("static", filename="script.js") }}></script>
+    <noscript>Sorry!</noscript>
+{% endblock %}
+
 {% block body %}
     {{ cube|safe }}
+    <form action="" method="post">
+        {{ form.csrf_token }}
+        <p>
+            {{ form.sequence.label }}
+            {{ form.sequence }}
+            {% for error in form.sequence.errors %}
+            {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.rotate.label }}
+            {{ form.rotate }}
+        </p>
+        <p>
+            {{ form.apply }}
+        </p>
+    </form>
 {% endblock %}

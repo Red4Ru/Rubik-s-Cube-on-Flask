@@ -1,6 +1,8 @@
 import random
 import typing
 
+from flask import render_template
+
 from rubiks_cube.color import Color
 from rubiks_cube.rubiks_cube import RubiksCube, N_SIDES
 from rubiks_cube.slice import Slice
@@ -65,6 +67,17 @@ def decode(encoded_sides: str) -> RubiksCube:
 
 
 def to_web_view(cube: RubiksCube) -> str:
-    p_tag_start: str = "<p align='center'>"
-    p_tag_end: str = "</p>"
-    return p_tag_start + cube.to_ascii().replace("\n", "<br>") + p_tag_end
+    color_emoji_unicodes: dict[Color, str] = {
+        Color.BLUE: "\U0001f7e6",
+        Color.RED: "\U0001f7e5",
+        Color.YELLOW: "\U0001f7e8",
+        Color.GREEN: "\U0001f7e9",
+        Color.ORANGE: "\U0001f7e7",
+        Color.WHITE: "\U00002b1c",
+    }
+    result: str = render_template("cube_scene.html")
+    for i, side in enumerate(cube.get_sides()):
+        emoji_side: str = "<br>".join("".join(color_emoji_unicodes[color] for color in row) for row in side)
+        result = result.replace(f">{i}<", f">{emoji_side}<")
+
+    return result

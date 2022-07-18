@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
     {% block head %}
+        {% block style %}
+            <link rel="stylesheet" href={{ url_for("static", filename="style.css") }}>
+        {% endblock %}
         <meta charset="UTF-8">
         {% block title %}
             <title>Rubik's Cube</title>
+        {% endblock %}
+        {% block script %}
         {% endblock %}
     {% endblock %}
 </head>

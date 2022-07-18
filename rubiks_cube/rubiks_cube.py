@@ -58,6 +58,13 @@ class RubiksCube:
             steps: int = ("\"'".index(movement[1]) + 2) if len(movement) > 1 else 1
             self.rotate(Slice[movement[0]], steps)
 
+    @staticmethod
+    def invert_sequence(seq: str) -> str:
+        a = seq.replace("'", "#")
+        b = "".join(("'" if "#" not in a[i:i + 2] else "") + a[i] for i in range(len(a) - 1)) + (
+            ("'" + a[-1]) if a[-1] != "#" else "")
+        return b[::-1].replace("#", "")
+
     def rotate(self, slice: Slice, steps: int) -> None:
         axis_to_slices: dict[Axis, [Slice]] = {
             Axis.X:

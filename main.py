@@ -1,8 +1,12 @@
+import typing
+
 from flask import Flask, render_template, redirect, Response
 
 from config import Config
 from project.forms import MainPageForm, RubiksCubeForm
 from randomizer import generate_seed
+from rubiks_cube.axis import Axis
+from rubiks_cube.rubiks_cube import RubiksCube
 from rubiks_cube_utils import get_cube, encode, to_web_view, decode
 
 app = Flask(__name__)
@@ -11,12 +15,14 @@ app.config.from_object(Config())
 
 @app.route("/", methods=["get", "post"])
 def index() -> Response | str:
-    form = MainPageForm()
+    form: MainPageForm = MainPageForm()
     if form.validate_on_submit():
         size: int = int(form.size.data)
         seed: str = form.seed.data or generate_seed()
 
-        log = lambda x: app.logger.debug("\n" + "\n".join("\t" + i for i in str(x).split("\n")))
+        log: typing.Callable[[str], None] = lambda x: app.logger.debug(
+            "\n" + "\n".join("\t" + i for i in str(x).split("\n"))
+        )
         log("seed: " + str(seed))
         return redirect(f"/cube/{encode(get_cube(size, seed, log=log))}/")
     return render_template("index.html", form=form)
@@ -24,10 +30,18 @@ def index() -> Response | str:
 
 @app.route("/cube/<string:sides>/", methods=["get", "post"])
 def cube(sides: str) -> Response | str:
-    form = RubiksCubeForm()
+    cube: RubiksCube = decode(sides)
+    form: RubiksCubeForm = RubiksCubeForm(cube.get_size())
     if form.validate_on_submit():
-        ...
-    return render_template("cube.html", form=form, cube=to_web_view(decode(sides)))
+        sequence: str = form.sequence.data
+        rotate_description: str = form.rotate.data
+        if rotate_description != "-":
+            from_down: bool = rotate_description.startswith("from down")
+            left: bool = bool(rotate_description.count("left"))
+            cube.rotate_cube(Axis.Z if left else Axis.X, 1 if (from_down ^ left) else -1)
+        cube.apply_sequence(sequence)
+        return redirect(f"/cube/{encode(cube)}/")
+    return render_template("cube.html", form=form, cube=to_web_view(cube))
 
 
 if __name__ == '__main__':
