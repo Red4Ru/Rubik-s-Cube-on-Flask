@@ -1,10 +1,11 @@
 import re
+import typing
 
 import numpy as np
 
-from axis import Axis
-from color import Color
-from slice import Slice
+from rubiks_cube.axis import Axis
+from rubiks_cube.color import Color
+from rubiks_cube.slice import Slice
 
 N_SIDES: int = 6
 
@@ -32,9 +33,21 @@ N_SIDES: int = 6
 class RubiksCube:
     def __init__(self, size: int = 3) -> None:
         self._size: int = size
-        self._sides: list[np.ndarray[np.ndarray[Color]]] = [
+        self._sides: list[np.ndarray[tuple, np.ndarray[tuple, Color]]] = [
             np.array([[color for _ in range(size)] for _ in range(size)]) for color in Color
         ]
+
+    def get_size(self) -> int:
+        return self._size
+
+    def set_size(self, size: int) -> None:
+        self._size = size
+
+    def get_sides(self) -> list[np.ndarray[tuple, np.ndarray[tuple, Color]]]:
+        return self._sides
+
+    def set_sides(self, sides: list[typing.Sequence[typing.Sequence[Color]]]) -> None:
+        self._sides = [np.array(side) for side in sides]
 
     def apply_sequence(self, seq: str) -> None:
         choices: str = "".join(slice.name for slice in Slice)
@@ -46,7 +59,7 @@ class RubiksCube:
             self.rotate(Slice[movement[0]], steps)
 
     def rotate(self, slice: Slice, steps: int) -> None:
-        axis_toSlices: dict[Axis, [Slice]] = {
+        axis_to_slices: dict[Axis, [Slice]] = {
             Axis.X:
                 (Slice.L, Slice.l, Slice.r, Slice.R),
             Axis.Y:
@@ -56,16 +69,16 @@ class RubiksCube:
         }
         if self._size < 4:
             assert slice.value < N_SIDES
-            axis_toSlices = {key: (value[0], value[-1]) for key, value in axis_toSlices.items()}
+            axis_to_slices = {key: (value[0], value[-1]) for key, value in axis_to_slices.items()}
         if self._size % 2:
-            for key, value in axis_toSlices.items():
-                slices: list[Slice] = list(axis_toSlices[key])
+            for key, value in axis_to_slices.items():
+                slices: list[Slice] = list(axis_to_slices[key])
                 slices.insert(self._size // 2, None)
-                axis_toSlices[key] = tuple(slices)
-        for axis, slices in axis_toSlices.items():
+                axis_to_slices[key] = tuple(slices)
+        for axis, slices in axis_to_slices.items():
             if slice in slices:
                 return self._rotate(axis, slices.index(slice), steps)
-        raise RuntimeError("Reached code that can't be reached, probably something is wrong with `axis_toSlices`")
+        raise RuntimeError("Reached code that can't be reached, probably something is wrong with `axis_to_slices`")
 
     def _rotate(self, axis: Axis, index: int, steps: int) -> None:
         if not steps:

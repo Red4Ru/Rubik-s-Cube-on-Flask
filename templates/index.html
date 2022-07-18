@@ -7,6 +7,10 @@
             {{ form.start }}
         </p>
         <p>
+            {{ form.size.label }}
+            {{ form.size }}
+        </p>
+        <p>
             {{ form.seed.label }}
             {{ form.seed }}
             {% for error in form.seed.errors %}

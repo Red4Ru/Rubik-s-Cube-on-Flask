@@ -2,15 +2,12 @@ import random
 
 from wtforms.validators import Regexp
 
+from rubiks_cube_utils import alpha_digit
+
 SEED_LENGTH: int = 8
 
 
 def generate_seed() -> str:
-    alpha_digit: set[str] = set(
-        "".join(
-            "".join(chr(i) for i in range(ord(start), ord(end) + 1)) for start, end in ("09", "AZ", "az")
-        )
-    )
     return "".join(random.sample(alpha_digit, SEED_LENGTH))
 
 
