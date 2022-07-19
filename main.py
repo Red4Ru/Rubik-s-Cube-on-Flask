@@ -41,8 +41,7 @@ def cube(sides: str) -> Response | str:
             cube.rotate_cube(Axis.Z if left else Axis.X, 1 if (from_down ^ left) else -1)
         cube.apply_sequence(sequence)
         return redirect(f"/cube/{encode(cube)}/")
-    html_cube: str = render_template("cube_scene.html", sides=cube.get_sides())
-    return render_template("cube.html", form=form, cube=html_cube)
+    return render_template("cube.html", form=form, cube=cube)
 
 
 if __name__ == '__main__':
