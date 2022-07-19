@@ -64,20 +64,3 @@ def decode(encoded_sides: str) -> RubiksCube:
     cube: RubiksCube = RubiksCube(size)
     cube.set_sides(sides)
     return cube
-
-
-def to_web_view(cube: RubiksCube) -> str:
-    color_emoji_unicodes: dict[Color, str] = {
-        Color.BLUE: "\U0001f7e6",
-        Color.RED: "\U0001f7e5",
-        Color.YELLOW: "\U0001f7e8",
-        Color.GREEN: "\U0001f7e9",
-        Color.ORANGE: "\U0001f7e7",
-        Color.WHITE: "\U00002b1c",
-    }
-    result: str = render_template("cube_scene.html")
-    for i, side in enumerate(cube.get_sides()):
-        emoji_side: str = "<br>".join("".join(color_emoji_unicodes[color] for color in row) for row in side)
-        result = result.replace(f">{i}<", f">{emoji_side}<")
-
-    return result

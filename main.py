@@ -7,7 +7,7 @@ from project.forms import MainPageForm, RubiksCubeForm
 from randomizer import generate_seed
 from rubiks_cube.axis import Axis
 from rubiks_cube.rubiks_cube import RubiksCube
-from rubiks_cube_utils import get_cube, encode, to_web_view, decode
+from rubiks_cube_utils import get_cube, encode, decode
 
 app = Flask(__name__)
 app.config.from_object(Config())
@@ -41,7 +41,8 @@ def cube(sides: str) -> Response | str:
             cube.rotate_cube(Axis.Z if left else Axis.X, 1 if (from_down ^ left) else -1)
         cube.apply_sequence(sequence)
         return redirect(f"/cube/{encode(cube)}/")
-    return render_template("cube.html", form=form, cube=to_web_view(cube))
+    html_cube: str = render_template("cube_scene.html", sides=cube.get_sides())
+    return render_template("cube.html", form=form, cube=html_cube)
 
 
 if __name__ == '__main__':
