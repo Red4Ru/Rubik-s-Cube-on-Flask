@@ -151,10 +151,10 @@ class RubiksCube:
                     self._sides[Slice.L.value][:, index], \
                     self._sides[Slice.D.value][-1 - index, :], \
                     self._sides[Slice.R.value][:, -1 - index] = \
-                        self._sides[Slice.R.value][::-1, -1 - index].copy(), \
-                        self._sides[Slice.U.value][index, :].copy(), \
-                        self._sides[Slice.L.value][::-1, index].copy(), \
-                        self._sides[Slice.D.value][-1 - index, :].copy()
+                        self._sides[Slice.R.value][:, -1 - index].copy(), \
+                        self._sides[Slice.U.value][index, ::-1].copy(), \
+                        self._sides[Slice.L.value][:, index].copy(), \
+                        self._sides[Slice.D.value][-1 - index, ::-1].copy()
                     rotate_index = Slice.B.value
             case _:
                 raise ValueError(f"Something is wrong with axis (got {axis})")
