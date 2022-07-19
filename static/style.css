@@ -23,19 +23,19 @@ body { font-family: sans-serif; }
   height: 200px;
   border: 2px solid black;
   line-height: 65px;
-  letter-spacing: -12px;
-  font-size: 55px;
+  letter-spacing: -1px;
+  font-size: 48px;
   color: white;
   text-align: left;
   vertical-align: text-bottom;
 }
 
-.cube__face--top    { background: hsla(240, 100%, 50%, 1); }
-.cube__face--front  { background: hsla(  0, 100%, 50%, 1); }
-.cube__face--right  { background: hsla( 60, 100%, 50%, 1); }
-.cube__face--bottom { background: hsla(300, 100%, 50%, 1); }
-.cube__face--back   { background: hsla(120, 100%, 50%, 1); }
-.cube__face--left   { background: hsla(180, 100%, 50%, 1); }
+.cube__face--top    { background: hsla(0, 0%, 50%, 1); }
+.cube__face--front  { background: hsla(0, 0%, 50%, 1); }
+.cube__face--right  { background: hsla(0, 0%, 50%, 1); }
+.cube__face--bottom { background: hsla(0, 0%, 50%, 1); }
+.cube__face--back   { background: hsla(0, 0%, 50%, 1); }
+.cube__face--left   { background: hsla(0, 0%, 50%, 1); }
 
 .cube__face--top    { transform: rotateX( 90deg) translateZ(100px); }
 .cube__face--front  { transform: rotateY(0deg) translateZ(100px); }
