@@ -4,7 +4,7 @@
 
 {% macro render_cube_side(side, face_suffix) %}
 <div class="cube__face cube__face--{{ face_suffix }}">
-    <table>
+    <table cellspacing={{ 40 / (cube.get_size() + 1) }}>
         {% for row in side %}
         <tr>
             {% for cell in row %}
