@@ -1,14 +1,27 @@
-* { box-sizing: border-box; }
+body { font-family: sans-serif; font-size: 20px; }
 
-body { font-family: sans-serif; }
+table {
+   width: 100%;
+   height: 100%;
+}
 
-.scene {
-  width: 200px;
-  height: 200px;
-  margin: 160px;
-  perspective: 400px;
+td {
+    border-radius: 6px;
+}
+
+.centered {
   margin-left: auto;
   margin-right: auto;
+  width: fit-content;
+  height: fit-content;
+}
+
+.scene {
+  width: 600px;
+  height: 600px;
+  margin: 20px;
+  margin-top: -80px;
+  perspective: 400px;
 }
 
 .cube {
@@ -16,7 +29,7 @@ body { font-family: sans-serif; }
   height: 200px;
   position: relative;
   transform-style: preserve-3d;
-  transform: translateZ(-100px) rotateX(-30deg) rotateY(-30deg);
+  transform: translateX(200px) translateY(200px) translateZ(-100px) rotateX(-30deg) rotateY(-30deg);
 }
 
 .cube__face {
@@ -38,12 +51,3 @@ body { font-family: sans-serif; }
 .cube__face--bottom { transform: rotateX(-90deg) translateZ(350px); }
 .cube__face--back   { transform: rotateZ(180deg) rotateY(180deg) translateX(100px) translateZ(350px); }
 .cube__face--left   { transform: rotateY(-90deg) translateZ(350px); }
-
-table {
-     width: 100%;
-     height: 100%;
-}
-
-td {
-    border-radius: 6px;
-}

@@ -32,22 +32,24 @@
 {% endblock %}
 
 {% block body %}
-    {{ render_cube(cube.get_sides()) }}
-    <form action="" method="post">
-        {{ form.csrf_token }}
-        <p>
-            {{ form.sequence.label }}
-            {{ form.sequence }}
-            {% for error in form.sequence.errors %}
-            {{ error }}
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.rotate.label }}
-            {{ form.rotate }}
-        </p>
-        <p>
-            {{ form.apply }}
-        </p>
-    </form>
+    <div class="centered">
+        {{ render_cube(cube.get_sides()) }}
+        <form class="centered" action="" method="post">
+            {{ form.csrf_token }}
+            <p>
+                {{ form.sequence.label }}
+                {{ form.sequence }}
+                {% for error in form.sequence.errors %}
+                {{ error }}
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.rotate.label }}
+                {{ form.rotate }}
+            </p>
+            <p>
+                {{ form.apply }}
+            </p>
+        </form>
+    </div>
 {% endblock %}
