@@ -36,20 +36,25 @@
         {{ render_cube(cube.get_sides()) }}
         <form class="centered" action="" method="post">
             {{ form.csrf_token }}
-            <p>
+            <p class="centered">
                 {{ form.sequence.label }}
                 {{ form.sequence }}
                 {% for error in form.sequence.errors %}
                 {{ error }}
                 {% endfor %}
             </p>
-            <p>
+            <p class="centered">
                 {{ form.rotate.label }}
                 {{ form.rotate }}
             </p>
-            <p>
+            <p class="centered">
                 {{ form.apply }}
             </p>
         </form>
+        <p>
+            {% with messages = get_flashed_messages() %}
+                {{ messages[0] if messages else "" }}
+            {% endwith %}
+        </p>
     </div>
 {% endblock %}

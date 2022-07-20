@@ -1,6 +1,6 @@
 import typing
 
-from flask import Flask, render_template, redirect, Response
+from flask import Flask, render_template, redirect, Response, flash
 
 from config import Config
 from project.forms import MainPageForm, RubiksCubeForm
@@ -23,7 +23,8 @@ def index() -> Response | str:
         log: typing.Callable[[str], None] = lambda x: app.logger.debug(
             "\n" + "\n".join("\t" + i for i in str(x).split("\n"))
         )
-        log("seed: " + str(seed))
+        log(f"Seed: {seed}")
+        flash(f"Seed: {seed}")
         return redirect(f"/cube/{encode(get_cube(size, seed, log=log))}/")
     return render_template("index.html", form=form)
 

@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <form action="" method="post">
+    <form class="centered" action="" method="post">
         {{ form.csrf_token }}
-        <p>
-            {{ form.start }}
-        </p>
-        <p>
-            {{ form.size.label }}
-            {{ form.size }}
-        </p>
-        <p>
+        <p class="centered">
             {{ form.seed.label }}
             {{ form.seed }}
             {% for error in form.seed.errors %}
-                {{ error }}
+            {{ error }}
             {% endfor %}
+        </p>
+        <p class="centered">
+            {{ form.size.label }}
+            {{ form.size }}
+        </p>
+        <p class="centered">
+            {{ form.start }}
         </p>
     </form>
 {% endblock %}

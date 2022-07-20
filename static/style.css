@@ -1,4 +1,4 @@
-body { font-family: sans-serif; font-size: 20px; }
+body { font-family: sans-serif; font-size: 20px; background: #f1f3f4; }
 
 table {
    width: 100%;
@@ -20,7 +20,8 @@ td {
   width: 600px;
   height: 600px;
   margin: 20px;
-  margin-top: -80px;
+  margin-top: -90px;
+  margin-bottom: 0px;
   perspective: 400px;
 }
 
