@@ -35,10 +35,21 @@ def cube(sides: str) -> Response | str:
     if form.validate_on_submit():
         sequence: str = form.sequence.data
         rotate_description: str = form.rotate.data
-        if rotate_description != "-":
-            from_down: bool = rotate_description.startswith("from down")
-            left: bool = bool(rotate_description.count("left"))
-            cube.rotate_cube(Axis.Z if left else Axis.X, 1 if (from_down ^ left) else -1)
+        match rotate_description:
+            case "-":
+                pass
+            case "F -> U":
+                cube.rotate_cube(Axis.X, 1)
+            case "U -> F":
+                cube.rotate_cube(Axis.X, -1)
+            case "R -> F":
+                cube.rotate_cube(Axis.Y, 1)
+            case "F -> R":
+                cube.rotate_cube(Axis.Y, -1)
+            case "U -> R":
+                cube.rotate_cube(Axis.Z, 1)
+            case "R -> U":
+                cube.rotate_cube(Axis.Z, -1)
         cube.apply_sequence(sequence)
         return redirect(f"/cube/{encode(cube)}/")
     return render_template("cube.html", form=form, cube=cube)

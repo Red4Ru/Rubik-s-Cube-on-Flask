@@ -13,12 +13,13 @@ class MainPageForm(FlaskForm):
 
 
 class RubiksCubeForm(FlaskForm):
-    small_cube_validator: Regexp = Regexp(f"[{''.join(i.name for i in Slice if i.name.isupper())}]*")
-    big_cube_validator: Regexp = Regexp(f"[{''.join(i.name for i in Slice)}]*")
+    small_cube_validator: Regexp = Regexp(f"(([{''.join(i.name for i in Slice if i.name.isupper())}](\'|\")?)+)?")
+    big_cube_validator: Regexp = Regexp(f"(([{''.join(i.name for i in Slice)}](\'|\")?)+)?")
 
     sequence: StringField = StringField("Sequence: ", validators=[small_cube_validator])
-    rotate = SelectField("Rotate: ", default="-", choices=["-", "from down to upper-right", "from down to upper-left",
-                                                           "from upper-right to down", "from upper-left to down"])
+    rotate = SelectField("Rotate: ", default="-", choices=[
+        "-", "F -> U", "U -> F", "R -> F", "F -> R", "U -> R", "R -> U"
+    ])
     apply: SubmitField = SubmitField("Apply!")
 
     def __init__(self, cube_size: int | None = None, *args, **kwargs) -> None:
