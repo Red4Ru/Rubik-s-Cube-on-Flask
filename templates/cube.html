@@ -26,7 +26,7 @@
                 {{ form.rotate }}
             </p>
             <p class="centered">
-                {{ form.to_menu }}
+                <button name="quit" form="quit">Quit</button>
                 {{ form.apply }}
             </p>
         </form>
@@ -35,5 +35,7 @@
                 {{ messages[0] if messages else "" }}
             {% endwith %}
         </p>
+        <form id="quit" action="/" method="post">
+        </form>
     </div>
 {% endblock %}

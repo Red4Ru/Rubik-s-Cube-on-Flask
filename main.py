@@ -31,9 +31,6 @@ def index() -> Response | str:
 
 @app.route("/cube/<string:sides>/", methods=["get", "post"])
 def cube(sides: str) -> Response | str:
-    if RubiksCubeForm().to_menu.name in request.form:
-        return redirect("/")
-
     cube: RubiksCube = decode(sides)
     form: RubiksCubeForm = RubiksCubeForm(cube.get_size())
     if form.validate_on_submit():

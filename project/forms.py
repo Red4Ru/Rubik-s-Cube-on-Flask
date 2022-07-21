@@ -19,7 +19,6 @@ class RubiksCubeForm(FlaskForm):
 
     sequence: StringField = StringField("Sequence: ", validators=[small_cube_validator])
     rotate = SelectField("Rotate: ", default="-", choices=rotate_choices.copy())
-    to_menu: SubmitField = SubmitField("Quit")
     apply: SubmitField = SubmitField("Apply!")
 
     def __init__(self, cube_size: int | None = None, *args, **kwargs) -> None:
