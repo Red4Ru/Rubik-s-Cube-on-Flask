@@ -10,4 +10,4 @@ def generate_seed() -> str:
 
 
 def get_seed_valid() -> str:
-    return r"([\w\d]{" + str(SEED_LENGTH) + "})|(^$)"
+    return r"^([\w\d]{" + str(SEED_LENGTH) + "})?$"

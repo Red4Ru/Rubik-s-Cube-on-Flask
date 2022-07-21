@@ -29,6 +29,6 @@ class RubiksCubeForm(FlaskForm):
         assert 2 <= cube_size < 6
         valid: str = RubiksCubeForm.small_cube_valid if cube_size < 4 else RubiksCubeForm.big_cube_valid
         self.sequence.validators = [Regexp(
-            f"(([{valid}](\'|\")?)+)|(^$)",
+            f"^(([{valid}](\'|\")?)+)?$",
             message=f"You can only use {', '.join(valid)} with or without a ' or \" in sequence"
         )]
