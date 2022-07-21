@@ -159,14 +159,7 @@ class RubiksCube:
             case _:
                 raise ValueError(f"Something is wrong with axis (got {axis})")
         if index in (0, self._size - 1):
-            self._sides[rotate_index][0, :], \
-            self._sides[rotate_index][:, -1], \
-            self._sides[rotate_index][-1, :], \
-            self._sides[rotate_index][:, 0] = \
-                self._sides[rotate_index][::-1, 0].copy(), \
-                self._sides[rotate_index][0, :].copy(), \
-                self._sides[rotate_index][::-1, -1].copy(), \
-                self._sides[rotate_index][-1, :].copy()
+            self._sides[rotate_index] = np.array([self._sides[rotate_index][::-1, i].copy() for i in range(self._size)])
         steps = steps % 4 - 1
         self._rotate(axis, index, steps)
 
