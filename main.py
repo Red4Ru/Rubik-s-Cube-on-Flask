@@ -1,6 +1,6 @@
 import typing
 
-from flask import Flask, render_template, redirect, Response, flash
+from flask import Flask, render_template, redirect, Response, flash, request
 
 from config import Config
 from project.forms import MainPageForm, RubiksCubeForm
@@ -31,6 +31,9 @@ def index() -> Response | str:
 
 @app.route("/cube/<string:sides>/", methods=["get", "post"])
 def cube(sides: str) -> Response | str:
+    if RubiksCubeForm().to_menu.name in request.form:
+        return redirect("/")
+
     cube: RubiksCube = decode(sides)
     form: RubiksCubeForm = RubiksCubeForm(cube.get_size())
     if form.validate_on_submit():
