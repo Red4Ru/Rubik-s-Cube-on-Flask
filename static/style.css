@@ -30,7 +30,7 @@ td {
   height: 200px;
   position: relative;
   transform-style: preserve-3d;
-  transform: translateX(200px) translateY(200px) translateZ(-100px) rotateX(-30deg) rotateY(-30deg);
+  transform: translateX(200px) translateY(200px) translateZ(-100px) rotateX(-30deg) rotateY(-35deg);
 }
 
 .cube__face {
