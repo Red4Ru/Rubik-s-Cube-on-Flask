@@ -18,7 +18,8 @@ def get_cube(size: int, seed: str, seq_size_coef: int = 3,
         i + ("" if random.randint(0, 1) else "'") for i in
         random.choices(tuple(f(j) for j in Slice), k=seq_size_coef * size ** 2)
     )
-    log(sequence)
+    log(f"Original sequence:\n\t{sequence}")
+    log(f"Inverse sequence:\n\t{RubiksCube.invert_sequence(sequence)}")
     cube: RubiksCube = RubiksCube(size)
     log(cube.to_ascii())
     cube.apply_sequence(sequence)
