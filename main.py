@@ -35,6 +35,8 @@ def cube(sides: str) -> Response | str:
     form: RubiksCubeForm = RubiksCubeForm(cube.get_size())
     if form.validate_on_submit():
         sequence: str = form.sequence.data
+        cube.apply_sequence(sequence)
+
         rotate_description: str = form.rotate.data
         match rotate_description:
             case "-":
@@ -51,7 +53,7 @@ def cube(sides: str) -> Response | str:
                 cube.rotate_cube(Axis.Z, 1)
             case "R -> U":
                 cube.rotate_cube(Axis.Z, -1)
-        cube.apply_sequence(sequence)
+
         return redirect(f"/cube/{encode(cube)}/")
     return render_template("cube.html", form=form, cube=cube)
 
