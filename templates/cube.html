@@ -27,8 +27,10 @@
 {% endmacro %}
 
 {% block script %}
-    <script src={{ url_for("static", filename="script.js") }}></script>
-    <noscript>Sorry!</noscript>
+    {% if cube|is_solved %}
+        <script src={{ url_for("static", filename="script.js") }} type="text/javascript" defer></script>
+        <noscript>Congratulations!</noscript>
+    {% endif %}
 {% endblock %}
 
 {% block body %}

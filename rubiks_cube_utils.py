@@ -64,3 +64,7 @@ def decode(encoded_sides: str) -> RubiksCube:
     cube: RubiksCube = RubiksCube(size)
     cube.set_sides(sides)
     return cube
+
+
+def check_cube_is_solved(cube: RubiksCube) -> bool:
+    return all(len(set(",".join(",".join(color.name for color in row) for row in side).split(","))) == 1 for side in cube.get_sides())

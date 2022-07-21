@@ -7,7 +7,7 @@ from project.forms import MainPageForm, RubiksCubeForm
 from randomizer import generate_seed
 from rubiks_cube.axis import Axis
 from rubiks_cube.rubiks_cube import RubiksCube
-from rubiks_cube_utils import get_cube, encode, decode
+from rubiks_cube_utils import get_cube, encode, decode, check_cube_is_solved
 
 app = Flask(__name__)
 app.config.from_object(Config())
@@ -54,6 +54,11 @@ def cube(sides: str) -> Response | str:
         cube.apply_sequence(sequence)
         return redirect(f"/cube/{encode(cube)}/")
     return render_template("cube.html", form=form, cube=cube)
+
+
+@app.template_filter("is_solved")
+def check_cube_filter(cube: RubiksCube):
+    return check_cube_is_solved(cube)
 
 
 if __name__ == '__main__':
