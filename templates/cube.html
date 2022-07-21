@@ -36,7 +36,7 @@
 {% block body %}
     <div class="centered">
         {{ render_cube(cube.get_sides()) }}
-        <form class="centered" action="" method="post">
+        <form class="centered" action="" method="post" autocomplete="off">
             {{ form.csrf_token }}
             <p class="centered">
                 {{ form.sequence.label }}
