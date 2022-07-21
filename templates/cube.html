@@ -9,33 +9,34 @@
     {% endif %}
 {% endblock %}
 
-{% block body %}
-    <div class="centered">
-        {{ render_cube(cube.get_sides()) }}
-        <form class="centered" action="" method="post" autocomplete="off">
-            {{ form.csrf_token }}
-            <p class="centered">
-                {{ form.sequence.label }}
-                {{ form.sequence }}
-                {% for error in form.sequence.errors %}
-                {{ error }}
-                {% endfor %}
-            </p>
-            <p class="centered">
-                {{ form.rotate.label }}
-                {{ form.rotate }}
-            </p>
-            <p class="centered">
-                <button name="quit" form="quit">Quit</button>
-                {{ form.apply }}
-            </p>
-        </form>
-        <p>
-            {% with messages = get_flashed_messages() %}
-                {{ messages[0] if messages else "" }}
-            {% endwith %}
+{% block content %}
+    {{ render_cube(cube.get_sides()) }}
+    <form class="centered" action="" method="post" autocomplete="off">
+        {{ form.csrf_token }}
+        <p class="centered">
+            {{ form.sequence.label }}
+            {{ form.sequence }}<br>
         </p>
-        <form id="quit" action="/" method="post">
-        </form>
-    </div>
+        <p class="centered">
+            {{ form.rotate.label }}
+            {{ form.rotate }}
+        </p>
+        <p class="centered">
+            <button name="quit" form="quit">Quit</button>
+            {{ form.apply }}
+        </p>
+    </form>
+    <form id="quit" action="/" method="post"></form>
+    {{ super() }}
+{% endblock %}
+
+{% block messages %}
+    <p>
+        <small style="color:{{ 'red' if form.sequence.errors else 'auto' }}">
+            {{ super() }}
+            {% if form.sequence.errors %}
+            {{ ", ".join(form.sequence.errors) }}
+            {% endif %}
+        </small>
+    </p>
 {% endblock %}

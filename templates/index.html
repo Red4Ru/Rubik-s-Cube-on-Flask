@@ -1,14 +1,11 @@
 {% extends "base.html" %}
 
-{% block body %}
-    <form class="centered" action="" method="post" autocomplete="off">
+{% block content %}
+    <form action="" method="post" autocomplete="off">
         {{ form.csrf_token }}
         <p class="centered">
             {{ form.seed.label }}
             {{ form.seed }}
-            {% for error in form.seed.errors %}
-            {{ error }}
-            {% endfor %}
         </p>
         <p class="centered">
             {{ form.size.label }}
@@ -18,4 +15,15 @@
             {{ form.start }}
         </p>
     </form>
+    {{ super() }}
+{% endblock %}
+
+{% block messages %}
+    <p>
+        <small style="color:red">
+            {% if form.seed.errors %}
+                {{ ", ".join(form.seed.errors) }}
+            {% endif %}
+        </small>
+    </p>
 {% endblock %}
