@@ -7,7 +7,7 @@ from project.forms import MainPageForm, RubiksCubeForm
 from randomizer import generate_seed
 from rubiks_cube.axis import Axis
 from rubiks_cube.rubiks_cube import RubiksCube
-from rubiks_cube_utils import get_cube, encode, decode, check_cube_is_solved
+from rubiks_cube_utils import get_cube, encode, decode, check_cube_is_solved, rotate_choices
 
 app = Flask(__name__)
 app.config.from_object(Config())
@@ -38,21 +38,9 @@ def cube(sides: str) -> Response | str:
         cube.apply_sequence(sequence)
 
         rotate_description: str = form.rotate.data
-        match rotate_description:
-            case "-":
-                pass
-            case "F -> U":
-                cube.rotate_cube(Axis.X, 1)
-            case "U -> F":
-                cube.rotate_cube(Axis.X, -1)
-            case "R -> F":
-                cube.rotate_cube(Axis.Y, 1)
-            case "F -> R":
-                cube.rotate_cube(Axis.Y, -1)
-            case "U -> R":
-                cube.rotate_cube(Axis.Z, 1)
-            case "R -> U":
-                cube.rotate_cube(Axis.Z, -1)
+        rotate_choice_index: int = rotate_choices.index(rotate_description) - 1
+        if rotate_choice_index != -1:
+            cube.rotate_cube((Axis.X, Axis.Y, Axis.Z)[rotate_choice_index // 3], (1, -1, 2)[rotate_choice_index % 3])
 
         return redirect(f"/cube/{encode(cube)}/")
     return render_template("cube.html", form=form, cube=cube)

@@ -4,6 +4,7 @@ from wtforms.validators import Regexp
 
 from randomizer import get_seed_validator
 from rubiks_cube.slice import Slice
+from rubiks_cube_utils import rotate_choices
 
 
 class MainPageForm(FlaskForm):
@@ -17,9 +18,7 @@ class RubiksCubeForm(FlaskForm):
     big_cube_validator: Regexp = Regexp(f"(([{''.join(i.name for i in Slice)}](\'|\")?)+)?")
 
     sequence: StringField = StringField("Sequence: ", validators=[small_cube_validator])
-    rotate = SelectField("Rotate: ", default="-", choices=[
-        "-", "F -> U", "U -> F", "R -> F", "F -> R", "U -> R", "R -> U"
-    ])
+    rotate = SelectField("Rotate: ", default="-", choices=rotate_choices.copy())
     apply: SubmitField = SubmitField("Apply!")
 
     def __init__(self, cube_size: int | None = None, *args, **kwargs) -> None:

@@ -1,8 +1,6 @@
 import random
 import typing
 
-from flask import render_template
-
 from rubiks_cube.color import Color
 from rubiks_cube.rubiks_cube import RubiksCube, N_SIDES
 from rubiks_cube.slice import Slice
@@ -67,4 +65,11 @@ def decode(encoded_sides: str) -> RubiksCube:
 
 
 def check_cube_is_solved(cube: RubiksCube) -> bool:
-    return all(len(set(",".join(",".join(color.name for color in row) for row in side).split(","))) == 1 for side in cube.get_sides())
+    return all(len(set(",".join(",".join(color.name for color in row) for row in side).split(","))) == 1 for side in
+               cube.get_sides())
+
+
+rotate_choices: list[str] = [
+    "-", "X  (\u2bab)", "X' (\u2bae)", "X\" (\u2bae\u2bae)", "Y  (\u2ba8)", "Y' (\u2ba9)", "Y\" (\u2ba9\u2ba9)",
+    "Z  (\u2baf)", "Z' (\u2baa)", "Z\" (\u2baa\u2baa)"
+]
