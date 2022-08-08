@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.config.from_object(Config())
 
 
-@app.route("/index.html", methods=["get", "post"])
+@app.route("/", methods=["get", "post"])
 def index() -> Response | str:
     form: MainPageForm = MainPageForm()
     if form.validate_on_submit():

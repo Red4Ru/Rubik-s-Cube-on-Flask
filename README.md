@@ -2,7 +2,7 @@
 
 This project lets you solve Rubik's cube by typing "formulas" in a form on a web page.
 
-There are 2 pages: main page (`"/index.html"` - static) and page with cube (`"/cube/{sides}"` - dynamic).
+There are 2 pages: main page (`"/"` - static) and page with cube (`"/cube/{sides}"` - dynamic).
 
 ## Pages
 
