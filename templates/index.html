@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
+{% from "macros.html" import render_logo %}
+
 {% block content %}
     <form action="" method="post" autocomplete="off">
         {{ form.csrf_token }}
+        {{ render_logo() }}
         <p class="centered">
             {{ form.seed.label }}
             {{ form.seed }}

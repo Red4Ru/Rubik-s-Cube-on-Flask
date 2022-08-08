@@ -1,25 +1,42 @@
-{% set colors = {"GREEN": "#00b400"} %}
+{% macro get_color(color) %}
+    {% set colors = {"GREEN": "#00b400"} %}
+    {{ colors.get(color) or color }}
+{% endmacro %}
 
 {% macro render_cube_side(side, face_suffix) %}
-<div class="cube__face cube__face--{{ face_suffix }}">
-    <table cellspacing={{ 40 / (side|length + 1) }}>
-    {% for row in side %}
-    <tr>
-        {% for cell in row %}
-        <td bgcolor={{ colors.get(cell.name) or cell.name }}></td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-    </table>
-</div>
+    <div class="cube__face cube__face--{{ face_suffix }}">
+        <table cellspacing={{ 40 / (side|length + 1) }}>
+            {% for row in side %}
+            <tr>
+                {% for cell in row %}
+                    <td bgcolor={{ get_color(cell.name) }}></td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endmacro %}
 
 {% macro render_cube(sides) %}
-<div class="scene">
-    <div class="cube">
-        {% for name in ["top", "front", "right", "bottom", "back", "left"] %}
-        {{ render_cube_side(sides[loop.index - 1], name) }}
-        {% endfor %}
+    <div class="scene">
+        <div class="cube">
+            {% for name in ["top", "front", "right", "bottom", "back", "left"] %}
+            {{ render_cube_side(sides[loop.index - 1], name) }}
+            {% endfor %}
+        </div>
     </div>
-</div>
+{% endmacro %}
+
+{% macro render_logo() %}
+    <div class="logo">
+        <div class="logo-element">
+            {{ render_cube(None) }}
+        </div>
+        <div class="centered logo-element">
+            <img
+                    src={{ url_for("static", filename="logo.png") }}
+            alt="Rubik's Cube on Flask"
+            style="width:400px;margin-top:37%;">
+        </div>
+    </div>
 {% endmacro %}
