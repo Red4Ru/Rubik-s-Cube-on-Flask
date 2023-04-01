@@ -60,10 +60,18 @@ class RubiksCube:
 
     @staticmethod
     def invert_sequence(seq: str) -> str:
-        a = seq.replace("'", "#")
-        b = "".join(("'" if "#" not in a[i:i + 2] else "") + a[i] for i in range(len(a) - 1)) + (
-            ("'" + a[-1]) if a[-1] != "#" else "")
-        return b[::-1].replace("#", "")
+        a = seq + " "
+        res = ""
+        for i in range(len(seq)):
+            if a[i] in "'\"":
+                continue
+            if a[i + 1] == '"':
+                res += '"' + a[i]
+            elif a[i + 1] == "'":
+                res += a[i]
+            else:
+                res += "'" + a[i]
+        return res[::-1]
 
     def rotate(self, slice: Slice, steps: int) -> None:
         axis_to_slices: dict[Axis, [Slice]] = {
@@ -185,12 +193,3 @@ class RubiksCube:
             result += " " * (self._size * 2) + " ".join(
                 self._sides[Slice.B.value][i][j].to_char() for j in range(self._size)) + "\n"
         return result
-
-
-if __name__ == '__main__':
-    cube: RubiksCube = RubiksCube()
-    print(cube.to_ascii())
-    print()
-    cube.apply_sequence("")
-    print(cube.to_ascii())
-    print()
