@@ -5,33 +5,10 @@ from rubiks_cube.axis import Axis
 from rubiks_cube.color import Color
 from rubiks_cube.rubiks_cube import RubiksCube
 from rubiks_cube.slice import Slice
-
-
-TEST_SEQUENCE: str = "B'LB'B'BLB'LLDR'F'DBL'RLU'UR'BDBRB'D'D'"
-TEST_INVERSE_SEQUENCE: str = "DDBR'B'D'B'RU'UL'R'LB'D'FRD'L'L'BL'B'BBL'B"
+from tests.utils import assert_sides_equal, build_cube_crosses, TEST_SEQUENCE, TEST_INVERSE_SEQUENCE
 
 
 class TestRubiksCube:
-    def build_cube_crosses(self, size: int = 3) -> list:
-        inverse = lambda i, j: bool(i * (size - 1 - i)) ^ bool(j * (size - 1 - j))
-        return [
-            np.array([[Color.BLUE if not inverse(i, j) else Color.GREEN for j in range(size)] for i in range(size)]),
-            np.array([[Color.RED if not inverse(i, j) else Color.ORANGE for j in range(size)] for i in range(size)]),
-            np.array([[Color.YELLOW if not inverse(i, j) else Color.WHITE for j in range(size)] for i in range(size)]),
-            np.array([[Color.GREEN if not inverse(i, j) else Color.BLUE for j in range(size)] for i in range(size)]),
-            np.array([[Color.ORANGE if not inverse(i, j) else Color.RED for j in range(size)] for i in range(size)]),
-            np.array([[Color.WHITE if not inverse(i, j) else Color.YELLOW for j in range(size)] for i in range(size)]),
-        ]
-
-    def assert_sides_equal(self, sides: list, expected_sides: list):
-        assert len(sides) == len(expected_sides)
-        for side, expected_side in zip(sides, expected_sides):
-            assert len(side) == len(expected_side)
-            for row, expected_row in zip(side, expected_side):
-                assert len(row) == len(expected_row)
-                for color, expected_color in zip(row, expected_row):
-                    assert color == expected_color
-
     @pytest.mark.parametrize("size", range(2, 6))
     def test_get_size(self, size: int):
         cube: RubiksCube = RubiksCube(size)
@@ -59,22 +36,22 @@ class TestRubiksCube:
             np.array([[Color.ORANGE for _ in range(size)] for _ in range(size)]),
             np.array([[Color.WHITE for _ in range(size)] for _ in range(size)]),
         ]
-        self.assert_sides_equal(sides, expected_sides)
+        assert_sides_equal(sides, expected_sides)
 
     @pytest.mark.parametrize("size", range(2, 6))
     def test_set_sides(self, size: int):
-        initial_sides: list = self.build_cube_crosses(size)
+        initial_sides: list = build_cube_crosses(size)
         cube: RubiksCube = RubiksCube()
         cube.set_sides(initial_sides)
         sides: list = cube.get_sides()
         assert sides is not initial_sides
-        self.assert_sides_equal(sides, initial_sides)
+        assert_sides_equal(sides, initial_sides)
 
     def test_apply_sequence(self):
         cube: RubiksCube = RubiksCube()
-        cube.set_sides(self.build_cube_crosses())
+        cube.set_sides(build_cube_crosses())
         cube.apply_sequence(TEST_SEQUENCE)
-        self.assert_sides_equal(cube.get_sides(), [
+        assert_sides_equal(cube.get_sides(), [
             np.array([
                 [Color.WHITE, Color.ORANGE, Color.BLUE],
                 [Color.GREEN, Color.BLUE, Color.WHITE],
@@ -107,7 +84,7 @@ class TestRubiksCube:
             ]),
         ])
         cube.apply_sequence(TEST_INVERSE_SEQUENCE)
-        self.assert_sides_equal(cube.get_sides(), self.build_cube_crosses())
+        assert_sides_equal(cube.get_sides(), build_cube_crosses())
 
     @pytest.mark.parametrize(
         "sequence,inverted",
@@ -145,10 +122,10 @@ class TestRubiksCube:
     def test_rotate__preserve_state(self, slice_):
         size: int = 5
         cube: RubiksCube = RubiksCube(size)
-        sides: list = self.build_cube_crosses(size)
+        sides: list = build_cube_crosses(size)
         cube.set_sides(sides)
         cube.rotate(slice_, 4)
-        self.assert_sides_equal(cube.get_sides(), sides)
+        assert_sides_equal(cube.get_sides(), sides)
 
     @pytest.mark.parametrize(
         "axis",
@@ -161,10 +138,10 @@ class TestRubiksCube:
     def test_rotate_cube__preserve_state(self, axis):
         size: int = 5
         cube: RubiksCube = RubiksCube(size)
-        sides: list = self.build_cube_crosses(size)
+        sides: list = build_cube_crosses(size)
         cube.set_sides(sides)
         cube.rotate_cube(axis, 4)
-        self.assert_sides_equal(cube.get_sides(), sides)
+        assert_sides_equal(cube.get_sides(), sides)
 
     def test_to_ascii(self):
         expected = """
@@ -182,6 +159,6 @@ W G B Y B W O O G
       G W R
 """[1:]
         cube: RubiksCube = RubiksCube()
-        cube.set_sides(self.build_cube_crosses())
+        cube.set_sides(build_cube_crosses())
         cube.apply_sequence(TEST_SEQUENCE)
         assert cube.to_ascii() == expected

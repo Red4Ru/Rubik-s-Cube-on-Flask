@@ -21,8 +21,8 @@ def get_cube(size: int, seed: str, seq_size_coef: int = 3,
     log(f"Original sequence:\n\t{sequence}")
     log(f"Inverse sequence:\n\t{RubiksCube.invert_sequence(sequence)}")
     cube: RubiksCube = RubiksCube(size)
-    log(cube.to_ascii())
     cube.apply_sequence(sequence)
+    log(cube.to_ascii())
     return cube
 
 
