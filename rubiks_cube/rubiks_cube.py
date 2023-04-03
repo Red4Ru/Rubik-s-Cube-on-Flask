@@ -100,72 +100,71 @@ class RubiksCube:
             return
         assert 0 <= index < self._size
         rotate_index: int
-        match axis:
-            case Axis.X:
-                if index >= self._size // 2:
-                    self._sides[Slice.U.value][:, index], \
-                    self._sides[Slice.F.value][:, index], \
-                    self._sides[Slice.D.value][:, index], \
-                    self._sides[Slice.B.value][:, index] = \
-                        self._sides[Slice.F.value][:, index].copy(), \
-                        self._sides[Slice.D.value][:, index].copy(), \
-                        self._sides[Slice.B.value][:, index].copy(), \
-                        self._sides[Slice.U.value][:, index].copy()
-                    rotate_index = Slice.R.value
-                else:
-                    self._sides[Slice.U.value][:, index], \
-                    self._sides[Slice.F.value][:, index], \
-                    self._sides[Slice.D.value][:, index], \
-                    self._sides[Slice.B.value][:, index] = \
-                        self._sides[Slice.B.value][:, index].copy(), \
-                        self._sides[Slice.U.value][:, index].copy(), \
-                        self._sides[Slice.F.value][:, index].copy(), \
-                        self._sides[Slice.D.value][:, index].copy()
-                    rotate_index = Slice.L.value
-            case Axis.Y:
-                if index >= self._size // 2:
-                    self._sides[Slice.L.value][-1 - index, :], \
-                    self._sides[Slice.F.value][-1 - index, :], \
-                    self._sides[Slice.R.value][-1 - index, :], \
-                    self._sides[Slice.B.value][index, ::-1] = \
-                        self._sides[Slice.F.value][-1 - index, :].copy(), \
-                        self._sides[Slice.R.value][-1 - index, :].copy(), \
-                        self._sides[Slice.B.value][index, ::-1].copy(), \
-                        self._sides[Slice.L.value][-1 - index, :].copy()
-                    rotate_index = Slice.U.value
-                else:
-                    self._sides[Slice.L.value][-1 - index, :], \
-                    self._sides[Slice.F.value][-1 - index, :], \
-                    self._sides[Slice.R.value][-1 - index, :], \
-                    self._sides[Slice.B.value][index, ::-1] = \
-                        self._sides[Slice.B.value][index, ::-1].copy(), \
-                        self._sides[Slice.L.value][-1 - index, :].copy(), \
-                        self._sides[Slice.F.value][-1 - index, :].copy(), \
-                        self._sides[Slice.R.value][-1 - index, :].copy()
-                    rotate_index = Slice.D.value
-            case Axis.Z:
-                if index >= self._size // 2:
-                    self._sides[Slice.U.value][index, :], \
-                    self._sides[Slice.L.value][:, index], \
-                    self._sides[Slice.D.value][-1 - index, :], \
-                    self._sides[Slice.R.value][:, -1 - index] = \
-                        self._sides[Slice.L.value][::-1, index].copy(), \
-                        self._sides[Slice.D.value][-1 - index, :].copy(), \
-                        self._sides[Slice.R.value][::-1, -1 - index].copy(), \
-                        self._sides[Slice.U.value][index, :].copy()
-                    rotate_index = Slice.F.value
-                else:
-                    self._sides[Slice.U.value][index, :], \
-                    self._sides[Slice.L.value][:, index], \
-                    self._sides[Slice.D.value][-1 - index, :], \
-                    self._sides[Slice.R.value][:, -1 - index] = \
-                        self._sides[Slice.R.value][:, -1 - index].copy(), \
-                        self._sides[Slice.U.value][index, ::-1].copy(), \
-                        self._sides[Slice.L.value][:, index].copy(), \
-                        self._sides[Slice.D.value][-1 - index, ::-1].copy()
-                    rotate_index = Slice.B.value
-            case _:
-                raise ValueError(f"Something is wrong with axis (got {axis})")
+        if axis == Axis.X:
+            if index >= self._size // 2:
+                self._sides[Slice.U.value][:, index], \
+                self._sides[Slice.F.value][:, index], \
+                self._sides[Slice.D.value][:, index], \
+                self._sides[Slice.B.value][:, index] = \
+                    self._sides[Slice.F.value][:, index].copy(), \
+                    self._sides[Slice.D.value][:, index].copy(), \
+                    self._sides[Slice.B.value][:, index].copy(), \
+                    self._sides[Slice.U.value][:, index].copy()
+                rotate_index = Slice.R.value
+            else:
+                self._sides[Slice.U.value][:, index], \
+                self._sides[Slice.F.value][:, index], \
+                self._sides[Slice.D.value][:, index], \
+                self._sides[Slice.B.value][:, index] = \
+                    self._sides[Slice.B.value][:, index].copy(), \
+                    self._sides[Slice.U.value][:, index].copy(), \
+                    self._sides[Slice.F.value][:, index].copy(), \
+                    self._sides[Slice.D.value][:, index].copy()
+                rotate_index = Slice.L.value
+        elif axis == Axis.Y:
+            if index >= self._size // 2:
+                self._sides[Slice.L.value][-1 - index, :], \
+                self._sides[Slice.F.value][-1 - index, :], \
+                self._sides[Slice.R.value][-1 - index, :], \
+                self._sides[Slice.B.value][index, ::-1] = \
+                    self._sides[Slice.F.value][-1 - index, :].copy(), \
+                    self._sides[Slice.R.value][-1 - index, :].copy(), \
+                    self._sides[Slice.B.value][index, ::-1].copy(), \
+                    self._sides[Slice.L.value][-1 - index, :].copy()
+                rotate_index = Slice.U.value
+            else:
+                self._sides[Slice.L.value][-1 - index, :], \
+                self._sides[Slice.F.value][-1 - index, :], \
+                self._sides[Slice.R.value][-1 - index, :], \
+                self._sides[Slice.B.value][index, ::-1] = \
+                    self._sides[Slice.B.value][index, ::-1].copy(), \
+                    self._sides[Slice.L.value][-1 - index, :].copy(), \
+                    self._sides[Slice.F.value][-1 - index, :].copy(), \
+                    self._sides[Slice.R.value][-1 - index, :].copy()
+                rotate_index = Slice.D.value
+        elif axis == Axis.Z:
+            if index >= self._size // 2:
+                self._sides[Slice.U.value][index, :], \
+                self._sides[Slice.L.value][:, index], \
+                self._sides[Slice.D.value][-1 - index, :], \
+                self._sides[Slice.R.value][:, -1 - index] = \
+                    self._sides[Slice.L.value][::-1, index].copy(), \
+                    self._sides[Slice.D.value][-1 - index, :].copy(), \
+                    self._sides[Slice.R.value][::-1, -1 - index].copy(), \
+                    self._sides[Slice.U.value][index, :].copy()
+                rotate_index = Slice.F.value
+            else:
+                self._sides[Slice.U.value][index, :], \
+                self._sides[Slice.L.value][:, index], \
+                self._sides[Slice.D.value][-1 - index, :], \
+                self._sides[Slice.R.value][:, -1 - index] = \
+                    self._sides[Slice.R.value][:, -1 - index].copy(), \
+                    self._sides[Slice.U.value][index, ::-1].copy(), \
+                    self._sides[Slice.L.value][:, index].copy(), \
+                    self._sides[Slice.D.value][-1 - index, ::-1].copy()
+                rotate_index = Slice.B.value
+        else:
+            raise ValueError(f"Something is wrong with axis (got {axis})")
         if index in (0, self._size - 1):
             self._sides[rotate_index] = np.array([self._sides[rotate_index][::-1, i].copy() for i in range(self._size)])
         steps = steps % 4 - 1

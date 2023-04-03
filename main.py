@@ -14,7 +14,7 @@ app.config.from_object(Config())
 
 
 @app.route("/", methods=["get", "post"])
-def index() -> Response | str:
+def index() -> typing.Union[Response, str]:
     form: MainPageForm = MainPageForm()
     if form.validate_on_submit():
         size: int = int(form.size.data)
@@ -30,7 +30,7 @@ def index() -> Response | str:
 
 
 @app.route("/cube/<string:sides>/", methods=["get", "post"])
-def cube(sides: str) -> Response | str:
+def cube(sides: str) -> typing.Union[Response, str]:
     cube: RubiksCube = decode(sides)
     form: RubiksCubeForm = RubiksCubeForm(cube.get_size())
     if form.validate_on_submit():

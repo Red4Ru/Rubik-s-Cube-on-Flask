@@ -28,7 +28,7 @@ def get_cube(size: int, seed: str, seq_size_coef: int = 3,
 
 def encode(cube: RubiksCube) -> str:
     result: str = ""
-    buffer: int | None = None
+    buffer: typing.Optional[int] = None
     for side in cube.get_sides():
         for row in side:
             for color in row:
