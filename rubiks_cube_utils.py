@@ -41,6 +41,7 @@ def encode(cube: RubiksCube) -> str:
 
 
 def decode(encoded_sides: str) -> RubiksCube:
+    assert len(encoded_sides) in (size ** 2 * N_SIDES // 2 for size in range(2, 6))
     size: int = int((len(encoded_sides) * 2 // N_SIDES) ** 0.5)
 
     sides: list[list[list[Color]]] = []

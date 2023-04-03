@@ -21,12 +21,12 @@ class TestColor:
     @pytest.mark.parametrize(
         "color,char",
         [
-            (Color.BLUE, 'B'),
-            (Color.RED, 'R'),
-            (Color.YELLOW, 'Y'),
-            (Color.GREEN, 'G'),
-            (Color.ORANGE, 'O'),
-            (Color.WHITE, 'W'),
+            (Color.BLUE, "B"),
+            (Color.RED, "R"),
+            (Color.YELLOW, "Y"),
+            (Color.GREEN, "G"),
+            (Color.ORANGE, "O"),
+            (Color.WHITE, "W"),
         ],
     )
     def test_to_char(self, color: Color, char: str):

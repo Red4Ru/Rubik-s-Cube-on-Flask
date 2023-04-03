@@ -1,6 +1,7 @@
 import typing
 
 from flask import Flask, render_template, redirect, Response, flash, request
+from werkzeug.exceptions import NotFound
 
 from config import Config
 from project.forms import MainPageForm, RubiksCubeForm
@@ -31,8 +32,11 @@ def index() -> typing.Union[Response, str]:
 
 @app.route("/cube/<string:sides>/", methods=["get", "post"])
 def cube(sides: str) -> typing.Union[Response, str]:
-    cube: RubiksCube = decode(sides)
-    form: RubiksCubeForm = RubiksCubeForm(cube.get_size())
+    try:
+        cube: RubiksCube = decode(sides)
+        form: RubiksCubeForm = RubiksCubeForm(cube.get_size())
+    except:
+        raise NotFound()
     if form.validate_on_submit():
         sequence: str = form.sequence.data
         cube.apply_sequence(sequence)
