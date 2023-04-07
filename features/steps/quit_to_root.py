@@ -71,15 +71,22 @@ def step_impl(context):
 @given("Stability testing loop")
 def step_impl(context):
     """
-        Set up timer
+        Set up timer and use existing statements to simulate consecutive redirecting
+        on the website until it runs out of time
     :type context: behave.runner.Context
     """
+    context.execute_steps(f"Given I navigate to cube page (size={random.randint(2, 5)})")
     duration = datetime.timedelta(minutes=3)
     stability_testing_ends_at = datetime.datetime.now() + duration
     while datetime.datetime.now() < stability_testing_ends_at:
-        context.execute_steps(f"""
-        Given I navigate to cube page (size={random.randint(2, 5)})
+        context.execute_steps("""
         When I click on Quit button
         Then Root page appears
+        """)
+        size = random.randint(2, 5)
+        context.execute_steps(f"""
+        When I choose size {size}
+        And I enter seed "{context.TEST_SEED}"
         And I click on Start button
+        Then Cube with size {size} is generated
         """)

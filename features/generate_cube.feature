@@ -18,9 +18,9 @@ Feature: Generate Cube
 
   Scenario Outline: Failure test for generating  cube with size <size>
     Given I navigate to root page
-    And I choose size <size>
+    When I choose size <size>
     And I enter seed "<seed>"
-    When I click on Start button
+    And I click on Start button
     Then Error message is generated
     Examples: Too short seed
       | size | seed    |
